@@ -5,12 +5,29 @@ var express = require('express'),
   Family = require('./api/models/familyModel'),
   Kid = require('./api/models/kidModel'),
   bodyParser = require('body-parser');
-  
+
+const session = require('express-session');
+const passport = require('passport');
+
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/ScreenTimeDB'); 
+mongoose.connect('mongodb://localhost/ScreenTimeDB');
 
+const passportSetup = require('./config/passport');
+passportSetup(passport);
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'angular auth passport secret shh',
+  resave: true,
+  saveUninitialized: true,
+  cookie : { httpOnly: true, maxAge: 2419200000 }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 
 var familyRoutes = require('./api/routes/familyRoutes');
@@ -19,8 +36,18 @@ familyRoutes(app);
 var kidRoutes = require('./api/routes/kidRoutes');
 kidRoutes(app);
 
-app.use(function(req, res) {
-  res.status(404).send({url: req.originalUrl + ' not found'})
+var authRoutes = require('./api/routes/authRoutes');
+authRoutes(app);
+
+app.use(function (req, res) {
+  res.status(404).send({
+    url: req.originalUrl + ' not found'
+  })
+});
+
+// error handler
+app.use(function (err, req, res, next) {
+  res.status(200).send('bummer');
 });
 
 

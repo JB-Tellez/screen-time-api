@@ -26,7 +26,7 @@ exports.read_a_family = function (req, res) {
 
   Family.findById(req.params.familyId).populate('kids').exec(function (err, family) {
     if (err)
-      res.send(err);
+      return res.status(500);
     res.json(family);
   });
 };
