@@ -7,17 +7,17 @@ const bcrypt     = require('bcrypt');
 const Family       = require('../models/familyModel');
 
 app.post('/auth/signup', (req, res, next) => {
-  const username = req.body.username;
+  const name = req.body.name;
   const password = req.body.password;
 
-  if (!username || !password) {
-    res.status(400).json({ message: 'Provide username and password' });
+  if (!name || !password) {
+    res.status(400).json({ message: 'Provide name and password' });
     return;
   }
 
-  Family.findOne({ username }, '_id', (err, foundUser) => {
+  Family.findOne({ name }, '_id', (err, foundUser) => {
     if (foundUser) {
-      res.status(400).json({ message: 'The username already exists' });
+      res.status(400).json({ message: 'The name already exists' });
       return;
     }
 
@@ -25,7 +25,7 @@ app.post('/auth/signup', (req, res, next) => {
     const hashPass = bcrypt.hashSync(password, salt);
 
     const theUser = new Family({
-      name: username,
+      name,
       password: hashPass
     });
 
