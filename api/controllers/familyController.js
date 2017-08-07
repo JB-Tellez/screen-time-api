@@ -5,7 +5,13 @@ var mongoose = require('mongoose'),
   Family = mongoose.model('Family');
 
 exports.list_all_families = function (req, res) {
-  Family.find({}).populate('kids').exec(function (err, family) {
+  Family.find({}).populate({ 
+     path: 'kids',
+     populate: {
+       path: 'viewings',
+       model: 'Viewing'
+     } 
+  }).exec(function (err, family) {
     if (err)
       res.send(err);
     res.json(family);
