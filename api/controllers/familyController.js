@@ -24,7 +24,13 @@ exports.create_a_family = function (req, res) {
 
 exports.read_a_family = function (req, res) {
 
-  Family.findById(req.params.familyId).populate('kids').exec(function (err, family) {
+  Family.findById(req.params.familyId).populate({ 
+     path: 'kids',
+     populate: {
+       path: 'viewings',
+       model: 'Viewing'
+     } 
+  }).exec(function (err, family) {
     if (err)
       return res.status(500);
     res.json(family);

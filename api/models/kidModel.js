@@ -11,7 +11,11 @@ var KidSchema = new Schema({
   family: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Family'
-  }
+  },
+  viewings: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Viewing'
+  }]
 });
 
 module.exports = mongoose.model('Kid', KidSchema);

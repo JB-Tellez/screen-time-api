@@ -4,6 +4,7 @@ var express = require('express'),
   mongoose = require('mongoose'),
   Family = require('./api/models/familyModel'),
   Kid = require('./api/models/kidModel'),
+  Viewing = require('./api/models/viewingModel'),
   bodyParser = require('body-parser');
 
 const session = require('express-session');
@@ -35,6 +36,9 @@ familyRoutes(app);
 
 var kidRoutes = require('./api/routes/kidRoutes');
 kidRoutes(app);
+
+var viewingRoutes = require('./api/routes/viewingRoutes');
+viewingRoutes(app);
 
 var authRoutes = require('./api/routes/authRoutes');
 authRoutes(app);
