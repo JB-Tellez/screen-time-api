@@ -4,10 +4,11 @@ var Schema = mongoose.Schema;
 
 
 var ViewingSchema = new Schema({
+  title: String,
   movieId: String,
   showId: String,
-  startTime: Number,
-  endTime: Number,
+  startTime: Date,
+  endTime: Date,
   kid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Kid'
