@@ -1,7 +1,7 @@
 'use strict';
 
 
-var mongoose = require('mongoose'), Kid = mongoose.model('Kid');
+var mongoose = require('mongoose'), Kid = mongoose.model('Kid'), Family = mongoose.model('Family');
 
 exports.list_all_kids = function (req, res) {
   Kid.find({}).populate('family').exec(function (err, kid) {
@@ -16,7 +16,13 @@ exports.create_a_kid = function (req, res) {
   new_kid.save(function (err, kid) {
     if (err)
       res.send(err);
+
+    Family.findByIdAndUpdate(kid.family, {$push:{'kids':kid}},{new: true}).exec(function (err, kid) {
+    if (err)
+      res.send(err);
+    console.log(kid)
     res.json(kid);
+  });
   });
 };
 
