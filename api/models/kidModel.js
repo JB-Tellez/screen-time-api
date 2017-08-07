@@ -8,14 +8,18 @@ var KidSchema = new Schema({
     type: String,
     Required: 'Kindly enter kid name'
   },
-  family: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Family'
-  },
   viewings: [{
     type: Schema.Types.ObjectId,
     ref: 'Viewing'
-  }]
+  }],
+  bedTimes: [{
+    type: Date,
+    default: Date.now
+  }],
+  family: {
+    type: Schema.Types.ObjectId,
+    ref: 'Family'
+  }
 });
 
 module.exports = mongoose.model('Kid', KidSchema);
