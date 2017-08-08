@@ -13,14 +13,17 @@ exports.list_all_kids = function (req, res) {
 
 exports.create_a_kid = function (req, res) {
   var new_kid = new Kid(req.body);
+
   new_kid.save(function (err, kid) {
     if (err)
       res.send(err);
 
-    Family.findByIdAndUpdate(kid.family, {$push:{'kids':kid}},{new: true}).exec(function (err, kid) {
+    Family.findByIdAndUpdate(kid.family, {$push:{'kids':kid}},{new: true}).exec(function (err, family) {
     if (err)
       res.send(err);
-    console.log(kid)
+
+    console.log('kid saved', kid);
+    
     res.json(kid);
   });
   });
