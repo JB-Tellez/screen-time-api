@@ -8,6 +8,10 @@ var KidSchema = new Schema({
     type: String,
     Required: 'Kindly enter kid name'
   },
+  minutesPerWeek: {
+    type: Number,
+    default: 0
+  },
   viewings: [{
     type: Schema.Types.ObjectId,
     ref: 'Viewing'
