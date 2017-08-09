@@ -18,7 +18,7 @@ var KidSchema = new Schema({
   }],
   bedTimes: [{
     type: Date,
-    default: [Date.now, Date.now, Date.now, Date.now, Date.now, Date.now, Date.now]
+    default: [new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date()]
   }]
 });
 
