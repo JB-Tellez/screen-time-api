@@ -7,8 +7,14 @@ var ViewingSchema = new Schema({
   title: String,
   movieId: String,
   showId: String,
-  startTime: Date,
-  endTime: Date
+  startTime: {
+    type: Date,
+    default: Date.now
+  },
+  endTime: {
+    type: Date,
+    default: Date.now
+  }
 
 });
 
