@@ -18,12 +18,8 @@ var KidSchema = new Schema({
   }],
   bedTimes: [{
     type: Date,
-    default: Date.now
-  }],
-  family: {
-    type: Schema.Types.ObjectId,
-    ref: 'Family'
-  }
+    default: [Date.now, Date.now, Date.now, Date.now, Date.now, Date.now, Date.now]
+  }]
 });
 
 module.exports = mongoose.model('Kid', KidSchema);
