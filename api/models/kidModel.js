@@ -8,6 +8,10 @@ var KidSchema = new Schema({
     type: String,
     Required: 'Kindly enter kid name'
   },
+  family: {
+    type: Schema.Types.ObjectId,
+    ref: 'Family'
+  },
   minutesPerWeek: {
     type: Number,
     default: 0
@@ -16,6 +20,10 @@ var KidSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Viewing'
   }],
+  currentViewing: {
+    type: Schema.Types.ObjectId,
+    ref: 'Viewing'
+  },
   bedTimes: [{
     type: Date,
     default: [new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date()]
