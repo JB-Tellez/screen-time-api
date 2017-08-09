@@ -1,7 +1,9 @@
 'use strict';
 
 
-var mongoose = require('mongoose'), Kid = mongoose.model('Kid'), Family = mongoose.model('Family');
+var mongoose = require('mongoose'),
+  Kid = mongoose.model('Kid'),
+  Family = mongoose.model('Family');
 
 exports.list_all_kids = function (req, res) {
   Kid.find({}).populate('family').exec(function (err, kid) {
@@ -12,26 +14,41 @@ exports.list_all_kids = function (req, res) {
 };
 
 exports.create_a_kid = function (req, res) {
-  var new_kid = new Kid(req.body);
+
+  console.log('create a kid', req.body.kid, req.body.family);
+
+  var new_kid = new Kid(req.body.kid);
 
   new_kid.save(function (err, kid) {
     if (err)
       res.send(err);
 
-    Family.findByIdAndUpdate(kid.family, {$push:{'kids':kid}},{new: true}).exec(function (err, family) {
-    if (err)
-      res.send(err);
-
-    console.log('kid saved', kid);
     
-    res.json(kid);
-  });
+
+    if (req.body.familyId) {
+      Family.findByIdAndUpdate(req.body.familyId, {
+        $push: {
+          'kids': kid
+        }
+      }, {
+        new: true
+      }).exec(function (err, family) {
+        if (err)
+          res.send(err);
+
+        console.log('kid saved', kid);
+
+        res.json(kid);
+      });
+    } else {
+      res.send('needs family id!');
+    }
   });
 };
 
 
 exports.read_a_kid = function (req, res) {
-    console.log('read_a_kid', req.params.kidId);
+  console.log('read_a_kid', req.params.kidId);
   Kid.findById(req.params.kidId).populate('family').exec(function (err, kid) {
     if (err)
       res.send(err);
@@ -53,7 +70,7 @@ exports.update_a_kid = function (req, res) {
 
 exports.delete_a_kid = function (req, res) {
 
-    Kid.remove({
+  Kid.remove({
     _id: req.params.kidId
   }, function (err, kid) {
     if (err)
