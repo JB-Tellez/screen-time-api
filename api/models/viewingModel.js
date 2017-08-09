@@ -14,6 +14,10 @@ var ViewingSchema = new Schema({
   endTime: {
     type: Date,
     default: Date.now
+  },
+  kid: {
+    type: Schema.Types.ObjectId,
+    ref: 'Kid'
   }
 
 });
