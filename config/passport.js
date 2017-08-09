@@ -1,28 +1,37 @@
 const LocalStrategy = require('passport-local').Strategy;
-const Family          = require('../api/models/familyModel');
-const bcrypt        = require('bcrypt');
+const Family = require('../api/models/familyModel');
+const bcrypt = require('bcrypt');
 
 module.exports = function (passport) {
 
   passport.use(new LocalStrategy((name, password, next) => {
-    Family.findOne({ name }, (err, foundUser) => {
-      if (err) {
-        next(err);
-        return;
-      }
+    Family.findOne({
+        name
+      })
+      .populate('kids')
+      .exec((err, foundUser) => {
 
-      if (!foundUser) {
-        next(null, false, { message: 'Incorrect family name' });
-        return;
-      }
+        if (err) {
+          next(err);
+          return;
+        }
 
-      if (!bcrypt.compareSync(password, foundUser.password)) {
-        next(null, false, { message: 'Incorrect password' });
-        return;
-      }
+        if (!foundUser) {
+          next(null, false, {
+            message: 'Incorrect family name'
+          });
+          return;
+        }
 
-      next(null, foundUser);
-    });
+        if (!bcrypt.compareSync(password, foundUser.password)) {
+          next(null, false, {
+            message: 'Incorrect password'
+          });
+          return;
+        }
+
+        next(null, foundUser);
+      });
   }));
 
   passport.serializeUser((loggedInUser, cb) => {
