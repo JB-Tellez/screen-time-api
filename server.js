@@ -9,9 +9,10 @@ var express = require('express'),
 
 const session = require('express-session');
 const passport = require('passport');
+require("dotenv").config();
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/ScreenTimeDB');
+mongoose.connect(process.env.MONGODB_URI);
 
 const passportSetup = require('./config/passport');
 passportSetup(passport);
