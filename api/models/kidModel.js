@@ -8,6 +8,12 @@ var KidSchema = new Schema({
     type: String,
     Required: 'Kindly enter kid name'
   },
+  avatar: {
+    type: Number,
+  },
+  age: {
+    type: Number
+  },
   family: {
     type: Schema.Types.ObjectId,
     ref: 'Family'
@@ -20,10 +26,6 @@ var KidSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Viewing'
   }],
-  currentViewing: {
-    type: Schema.Types.ObjectId,
-    ref: 'Viewing'
-  },
   bedTimes: [{
     type: Date,
     default: [new Date(), new Date(), new Date(), new Date(), new Date(), new Date(), new Date()]
