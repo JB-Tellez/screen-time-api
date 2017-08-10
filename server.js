@@ -7,6 +7,8 @@ var express = require('express'),
   Viewing = require('./api/models/viewingModel'),
   bodyParser = require('body-parser');
 
+  const cors = require('cors')({ exposedHeaders: ['X-ResponseTime'] });
+
 const session = require('express-session');
 const passport = require('passport');
 require("dotenv").config();
@@ -16,6 +18,8 @@ mongoose.connect(process.env.MONGODB_URI);
 
 const passportSetup = require('./config/passport');
 passportSetup(passport);
+
+app.use(cors);
 
 app.use(session({
   secret: 'angular auth passport secret shh',
