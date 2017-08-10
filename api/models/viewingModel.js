@@ -9,11 +9,11 @@ var ViewingSchema = new Schema({
   showId: String,
   startTime: {
     type: Date,
-    default: Date.now
+    default: new Date()
   },
   endTime: {
     type: Date,
-    default: Date.now
+    default: new Date()
   },
   kid: {
     type: Schema.Types.ObjectId,
