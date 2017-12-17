@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express    = require('express'),
     app        = express(),
     port       = process.env.PORT || 3000,
@@ -11,7 +13,6 @@ const cors     = require('cors')({ exposedHeaders: ['X-ResponseTime'] });
 
 const session  = require('express-session');
 const passport = require('passport');
-require("dotenv").config();
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI);
@@ -19,7 +20,10 @@ mongoose.connect(process.env.MONGODB_URI);
 const passportSetup = require('./config/passport');
 passportSetup(passport);
 
-app.use(cors);
+app.use(cors({
+  credentials: true,
+  origin: [process.env.CLIENT_URL]
+}));
 
 app.use(session({
   secret: 'angular auth passport secret shh',
